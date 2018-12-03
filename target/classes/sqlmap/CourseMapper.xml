@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lykj.database.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="lykj.database.model.Course">
+    <id column="id" jdbcType="BIGINT" property="id" />
+	<result column="sid" jdbcType="INTEGER" property="sid" />
+	<result column="tid" jdbcType="INTEGER" property="tid" />
+	<result column="start" jdbcType="TIMESTAMP" property="start" />
+    <result column="end" jdbcType="TIMESTAMP" property="end" />
+    <result column="basesalary" jdbcType="DECIMAL" property="basesalary" />
+    <result column="reward" jdbcType="DECIMAL" property="reward" />
+    <result column="salary" jdbcType="DECIMAL" property="salary" />
+    <result column="finish" jdbcType="INTEGER" property="finish" />
+    <result column="endsalary" jdbcType="INTEGER" property="endsalary" />
+    
+    <association property="teacher" javaType="lykj.database.model.Teacher">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+    </association>
+    
+    <association property="student" javaType="lykj.database.model.Student">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+    </association>
+  </resultMap>
+  
+  <resultMap id="ResultOfInteger" type="java.lang.Integer"><result column="count" property="count" jdbcType="INTEGER" /></resultMap>
+  <resultMap id="one" type="java.math.BigDecimal"><result column="one" property="one" jdbcType="DECIMAL" /></resultMap>
+  <resultMap id="two" type="java.math.BigDecimal"><result column="two" property="two" jdbcType="DECIMAL" /></resultMap>
+  <resultMap id="total" type="java.math.BigDecimal"><result column="total" property="total" jdbcType="DECIMAL" /></resultMap>
+  
+   <sql id="Base_Column_List">
+    id, sid, tid, start, end, basesalary, reward, salary, finish, endsalary
+  </sql>
+
+  <select id="findById" parameterType="INTEGER" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List" />
+   from ly_course where id=#{id,jdbcType=BIGINT}
+  </select>
+ 
+   <select id="findByTeacherSalary" parameterType="INTEGER" resultMap="BaseResultMap">
+   select *   from ly_course c, ly_teacher t 
+   where c.id=#{id,jdbcType=BIGINT} and t.id = tid
+  </select>
+  
+  <select id="findCourseList1" parameterType="hashmap" resultMap="BaseResultMap">
+   select * from ly_course c,ly_teacher t
+   where c.sid=#{sid,jdbcType=INTEGER} and t.id = tid order by start 
+   limit #{startRow},#{pageSize}
+  </select>
+  
+   <select id="teacherCount" parameterType="hashmap" resultMap="ResultOfInteger">
+  	select count(0) as count from ly_course c,ly_teacher t
+   where c.sid=#{sid,jdbcType=INTEGER} and t.id = tid
+  </select>
+  
+    <select id="findCourseList2" parameterType="hashmap" resultMap="BaseResultMap">
+   select * from ly_course c,ly_student s
+   where c.tid=#{tid,jdbcType=INTEGER} and s.id = sid order by start 
+   limit #{startRow},#{pageSize}
+  </select>
+  
+   <select id="studentCount" parameterType="hashmap" resultMap="ResultOfInteger">
+  	select count(0) as count from ly_course c,ly_student s
+   where c.tid=#{tid,jdbcType=INTEGER} and s.id = sid
+  </select>
+  
+  <select id="findCourseList" parameterType="hashmap" resultMap="BaseResultMap">
+   select * from ly_course
+   where 1=1 order by id asc
+   limit #{startRow},#{pageSize}
+  </select>
+  
+     <select id="count" parameterType="hashmap" resultMap="ResultOfInteger">
+  	select count(0) as count from ly_course
+   where 1=1 
+  </select>
+  
+   <select id="teacherSalaryList" parameterType="hashmap" resultMap="BaseResultMap">
+   select * from ly_course c, ly_teacher t, ly_student s
+   where c.tid=#{tid,jdbcType=INTEGER} and c.finish = 1 and c.endsalary = 0  and t.id = tid and s.id = c.sid order by start
+   limit #{startRow},#{pageSize}
+  </select> 
+  
+  <select id="salaryCount" parameterType="hashmap" resultMap="ResultOfInteger">
+  	select count(0) as count from ly_course c, ly_teacher t
+   where c.tid=#{tid,jdbcType=INTEGER} and c.finish = 1 and c.endsalary = 0  and t.id = tid order by start
+  </select>
+ 
+   <select id="teacherBaseSalarySum" parameterType="INTEGER" resultMap="one">
+   select sum(basesalary) as one from ly_course 
+   where tid=#{tid,jdbcType=INTEGER}  and finish = 1 and endsalary = 0  
+  </select> 
+  
+    <select id="teacherRewardSum" parameterType="INTEGER" resultMap="two">
+   select sum(reward) as two from ly_course 
+   where tid=#{tid,jdbcType=INTEGER}  and finish = 1 and endsalary = 0  
+  </select> 
+  
+   <select id="teacherSalarySum" parameterType="INTEGER" resultMap="total">
+   select sum(salary) as total from ly_course
+   where tid=#{tid,jdbcType=INTEGER} and finish = 1 and endsalary = 0  
+  </select> 
+  
+  
+   <insert id="addCourse" parameterType="lykj.database.model.Course" useGeneratedKeys="true" keyProperty="id">
+   insert into ly_course (id,sid,tid,start,end,basesalary)
+    values (#{id,jdbcType=BIGINT},
+            #{sid,jdbcType=INTEGER},            
+            #{tid,jdbcType=INTEGER},
+            #{start,jdbcType=TIMESTAMP},
+            #{end,jdbcType=TIMESTAMP},
+            #{basesalary,jdbcType=DECIMAL})
+  </insert>
+  
+  <update id="finishCourse" parameterType="lykj.database.model.Course">
+  	update ly_course
+  	 <set>
+  	  <if test="finish != null">
+        finish = #{finish,jdbcType=INTEGER}
+      </if>
+     </set>
+  	  where id = #{id,jdbcType=BIGINT}
+   </update>
+ 
+ <update id="updateSalary" parameterType="lykj.database.model.Course">
+ 	update ly_course
+ 	  	 <set>
+  	  <if test="basesalary != null">basesalary = #{basesalary,jdbcType=DECIMAL},</if>
+  	  <if test="reward != null">reward = #{reward,jdbcType=DECIMAL},</if>
+  	  <if test="salary != null">salary = #{salary,jdbcType=DECIMAL}</if>
+     </set>
+  	  where id = #{id,jdbcType=BIGINT}
+ </update>
+ 
+  <update id="updateCourse" parameterType="lykj.database.model.Course">
+ 	update ly_course
+ 	  <set>
+  	  <if test="tid != null">tid = #{tid,jdbcType=INTEGER},</if>
+  	  <if test="sid != null">sid = #{sid,jdbcType=INTEGER},</if>
+  	  <if test="start != null">start = #{start,jdbcType=TIMESTAMP},</if>
+  	  <if test="end != null">end = #{end,jdbcType=TIMESTAMP}</if>
+     </set>
+  	  where id = #{id,jdbcType=BIGINT}
+ </update>
+ 
+ <update id="endSalary" parameterType="lykj.database.model.Course">
+ 	update ly_course
+ 		<set>endsalary = 1 </set>
+ 	where tid = #{tid,jdbcType=INTEGER} and finish = 1</update>
+ 	
+   <delete id="deleteCourse" parameterType="INTEGER">
+  	delete from ly_course where id = #{id,jdbcType=BIGINT}
+  </delete>
+</mapper>

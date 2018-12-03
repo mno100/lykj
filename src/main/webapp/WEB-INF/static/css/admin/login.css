@@ -1,0 +1,57 @@
+@charset "utf-8";
+html,body {
+	min-height: 100%;
+	margin: 0;
+}
+/*登陆样式*/
+.login-min {
+	width: 300px;
+	height:200px;
+	content: counter();
+}
+.login-bg{
+	background:url(../../images/admin/login_bg.png) no-repeat;
+	width:100%;
+	height:100%;
+}
+.lmin-top{
+	width: 100%; overflow: hidden;
+}
+.lmin-left{
+	float: left; width: 100%; text-align: left; padding:120px 0px 5px 0px;
+}
+.lmin-dimg{
+	 width:518px; margin:0 auto; display:block;
+}
+.view{
+	width:518px; margin:0px 0px 0px 0px; margin-left: auto; margin-right: auto; overflow: hidden;
+	background-image: url(../../images/admin/login_kuang_bg.png); height:259px;
+}
+.vtable{
+	width: 518px;border:0px;margin-top: 25px;
+}
+.vtd-left{
+	width: 150px;text-align:right;margin-top: 5px;height:40px;
+}
+.vtd-right{
+	width: 368px;text-align:left;
+}
+.vtd-span{
+	color:#fff; font-size:18px; font-weight:bold;
+}
+.bnt{
+	background:url(../../images/admin/login_menu.png); width:100px; height:32px;
+	line-height:32px; color:#fff; font-size:14px; font-weight:bold;
+}
+.bntbig{
+	background:url(../../images/admin/login_menu.png); width:100px; height:40px;
+	line-height:40px; color:#fff; font-size:18px; font-weight:bold;
+}
+.codeimg{
+	cursor: pointer; vertical-align: -14px; *vertical-align: -1px; margin-left: 10px;width:"58px";height:"24px";
+}
+.inp202 { line-height: 28px; height: 28px; width: 202px; border: 1px solid #ddd; }
+.inp100 { height: 28px; width: 100px; border: 1px solid #ddd; line-height: 28px; }
+.msgtr{
+	height:24px; font-size:14px;margin-top:5px;
+}

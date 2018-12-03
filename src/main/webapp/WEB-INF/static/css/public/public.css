@@ -1,0 +1,22 @@
+@charset "utf-8";
+html,body {
+	min-height: 100%;
+	margin: 0;
+}
+.span01{
+	color:#fff; font-size:18px; font-weight:bold;
+}
+.bnt01{
+	background:url(../../images/admin/login_menu.png); width:100px; height:32px;
+	line-height:32px; color:#fff; font-size:14px; font-weight:bold;
+}
+.bnt02{
+	background:url(../../images/admin/login_menu.png); width:100px; height:40px;
+	line-height:40px; color:#fff; font-size:18px; font-weight:bold;
+}
+.img01{
+	cursor: pointer; vertical-align: -14px; *vertical-align: -1px; margin-left: 10px;width:"58px";height:"24px";
+}
+.inpt01 { line-height: 28px; height: 28px; width: 202px; border: 1px solid #ddd; }
+.inpt02 { height: 28px; width: 100px; border: 1px solid #ddd; line-height: 28px; }
+.a01 {color:#000000;text-decoration:none;}

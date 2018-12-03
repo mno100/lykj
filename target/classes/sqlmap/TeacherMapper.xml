@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lykj.database.dao.TeacherMapper">
+  <resultMap id="BaseResultMap" type="lykj.database.model.Teacher">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="wechat" jdbcType="VARCHAR" property="wechat" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+	<result column="language" jdbcType="VARCHAR" property="language" />
+	<result column="decide" jdbcType="INTEGER" property="decide" />
+  </resultMap>
+  
+    <resultMap id="ResultOfInteger" type="java.lang.Integer">
+    <result column="count" property="count" jdbcType="INTEGER" />  
+	</resultMap>
+  
+   <sql id="Base_Column_List">
+    id, name, age, mobile, wechat, address, decide, language
+  </sql>
+  
+  <select id="findById" parameterType="INTEGER" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List" />
+   from ly_teacher where id=#{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findTeacherList" parameterType="hashmap" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List" /> 
+   from ly_teacher where 1=1  
+   <if test="name != null">and  name like concat('%',#{name,jdbcType=VARCHAR},'%')</if>
+    ORDER BY id asc  limit #{startRow},#{pageSize}
+  </select>
+  
+  <select id="teacherCount" parameterType="hashmap" resultMap="ResultOfInteger">
+  	select count(0) as count from ly_teacher where 1=1
+  </select>
+  
+  <insert id="addTeacher" parameterType="lykj.database.model.Teacher" useGeneratedKeys="true" keyProperty="id">
+   insert into ly_teacher (id,name,age,mobile,wechat,address,language)
+   values (#{id,jdbcType=BIGINT},
+            #{name,jdbcType=VARCHAR},            
+            #{age,jdbcType=INTEGER},
+            #{mobile,jdbcType=VARCHAR},
+            #{wechat,jdbcType=VARCHAR},
+            #{address,jdbcType=VARCHAR},
+            #{language,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateTeacher" parameterType="lykj.database.model.Teacher">
+  	update ly_teacher
+  	 <set>
+  	  <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        wechat = #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null">
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+  	  </set>
+  	  where id = #{id,jdbcType=BIGINT}
+   </update>
+   
+   <update id="decideTeacher" parameterType="lykj.database.model.Teacher">
+  	update ly_teacher 
+  	 <set>
+  	  <if test="decide != null">
+        decide = #{decide,jdbcType=INTEGER}
+      </if>
+     </set>
+  	  where id = #{id,jdbcType=BIGINT}
+   </update>
+   
+  <delete id="deleteTeacher" parameterType="INTEGER">
+  	delete from ly_teacher where id = #{id,jdbcType=BIGINT}
+  </delete>
+   
+</mapper>

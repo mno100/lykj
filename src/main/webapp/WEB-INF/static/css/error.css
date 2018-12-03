@@ -1,0 +1,27 @@
+@charset "utf-8";
+html,body {
+	min-height: 100%;
+	margin: 0;
+	background-color: #fa7070;
+}
+.con {
+	position: relative;
+	width: 100%;
+	margin: auto;
+	padding-top: 150%;
+	background: url("../images/error.jpg") no-repeat 0 0;
+	-webkit-background-size: 100%;
+	-moz-background-size: 100%;
+	-ms-background-size: 100%;
+	-o-background-size: 100%;
+	background-size: 100%;
+}
+.con p {
+	position: absolute;
+	left: 13.44%;
+	top: 51.56%;
+	width: 20.31%;
+	margin: 0;
+	color: #f00;
+	font: bold 0.45rem/0.75rem "Microsoft YaHei";
+}

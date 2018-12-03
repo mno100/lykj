@@ -1,0 +1,42 @@
+/* All styles created for demo purposes only, you may not need this for your project */
+.demo-button button {
+  margin-bottom: 5px; }
+
+.demo-icons li {
+  margin-bottom: 50px;
+  text-align: center; }
+
+.demo-icons .lnr,
+.demo-icons .fa {
+  font-size: 28px; }
+
+.demo-icons .cssclass {
+  display: block;
+  margin-top: 5px;
+  margin-left: 5px; }
+  
+  
+.center {
+	display: block;
+	position: fixed;
+	_position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 500px;
+	height: 300px;
+	margin-left: -250px;
+	margin-top: -200px;
+	z-index: 1;
+	box-shadow: 4px 4px 8px #191818, -4px -4px 8px #191818;
+}
+
+.tablecss {
+	padding: 10px 10px;
+	margin-left: 20%;
+	line-height: 40px;
+}
+
+.tablecss .lefttd {
+	text-align: right;
+}
+/*# sourceMappingURL=demo.css.map */
